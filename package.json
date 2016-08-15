@@ -1,0 +1,50 @@
+{
+  "name": "get-sass-vars",
+  "version": "0.0.0",
+  "description": "Get Sass variables as JSON object.",
+  "main": "index.js",
+  "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
+  "license": "MIT",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "eslint {index,test/**/*}.js && istanbul cover _mocha test/**/*.js && istanbul check-coverage"
+  },
+  "dependencies": {
+    "camelcase-keys": "^3.0.0",
+    "lodash": "^4.15.0",
+    "node-sass": "^3.8.0",
+    "node-sass-json-functions": "^1.0.0",
+    "pify": "^2.3.0",
+    "postcss": "^5.1.1",
+    "strip-outer": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.1.1",
+    "eslint-config-niksy": "^3.0.1",
+    "istanbul": "^0.4.3",
+    "mocha": "^2.5.3"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "keywords": [
+    "export",
+    "get",
+    "json",
+    "node",
+    "sass",
+    "variables",
+    "vars"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niksy/get-sass-vars.git"
+  },
+  "bugs": {
+    "url": "https://github.com/niksy/get-sass-vars/issues"
+  },
+  "homepage": "https://github.com/niksy/get-sass-vars#readme"
+}
