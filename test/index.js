@@ -30,3 +30,21 @@ it('should camelcase Sass variable names and use them as JSON object keys', func
 		});
 
 });
+
+it('should use provided Sass options for Sass rendering', function () {
+
+	var expected = require('./fixtures/sass-options.expected.json');
+
+	return pify(fs.readFile)('./test/fixtures/index.scss', 'utf-8')
+		.then(function ( res ) {
+			return fn(res, {
+				sassOptions: {
+					precision: 2
+				}
+			});
+		})
+		.then(function ( actual ) {
+			assert.deepEqual(actual, expected);
+		});
+
+});
