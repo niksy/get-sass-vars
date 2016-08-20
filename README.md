@@ -89,9 +89,16 @@ Default: `false`
 
 Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
 
+##### sassOptions
+
+Type: `Object`
+
+[Options for node-sass][node-sass-options].
+
 ## License
 
 MIT © [Ivan Nikolić](http://ivannikolic.com)
 
 [ci]: https://travis-ci.org/niksy/get-sass-vars
 [ci-img]: https://img.shields.io/travis/niksy/get-sass-vars.svg
+[node-sass-options]: https://github.com/sass/node-sass#options
