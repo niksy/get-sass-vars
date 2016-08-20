@@ -53,6 +53,13 @@ $garply: (
 $qux: false;
 $fred: true;
 $corgle: null;
+
+.nested {
+
+	.selector {
+		$nested-var: thud;
+	}
+}
 ```
 
 ## API
@@ -63,10 +70,11 @@ Returns: `Promise`
 
 Gets Sass variables from Sass string.
 
+Only top-level variables will be considered, anything inside selector or at-rule is ignored.
+
 #### str
 
-Type: `String`  
-**Required**
+Type: `String`
 
 Sass input string.
 

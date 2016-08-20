@@ -6,6 +6,12 @@ var postcss = require('postcss');
 var sass = require('node-sass');
 var jsonFns = require('node-sass-json-functions');
 
+/**
+ * @param  {String} inputCssStr
+ * @param  {Object} opts
+ *
+ * @return {Promise}
+ */
 module.exports = function ( inputCssStr, opts ) {
 
 	opts = opts || {};
@@ -18,14 +24,16 @@ module.exports = function ( inputCssStr, opts ) {
 				selector: '.__sassVars__'
 			});
 
-			root.walkDecls(/^\$/, function ( rule ) {
-				node.append({
-					prop: 'content',
+			root.walkDecls(/^\$/, function ( decl ) {
+				if ( decl.parent === root ) {
+					node.append({
+						prop: 'content',
 
-					// rule.prop as property is wrapped inside quotes so it doesn’t get transformed with Sass
-					// rule.prop as value will be transformed with Sass
-					value: `"${rule.prop}" ":" json-encode(${rule.prop})`
-				});
+						// decl.prop as property is wrapped inside quotes so it doesn’t get transformed with Sass
+						// decl.prop as value will be transformed with Sass
+						value: `"${decl.prop}" ":" json-encode(${decl.prop})`
+					});
+				}
 			});
 			root.append(node);
 

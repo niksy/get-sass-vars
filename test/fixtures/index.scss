@@ -23,3 +23,14 @@ $garply: (
 $qux: false;
 $fred: true;
 $corgle: null;
+
+.nested {
+
+	.selector {
+		$nested-var-1: thud;
+	}
+}
+
+@media screen and (max-width:600px) {
+	$nested-var-2: qux;
+}
