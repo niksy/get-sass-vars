@@ -95,6 +95,10 @@ Type: `Object`
 
 [Options for node-sass][node-sass-options].
 
+## Related
+
+* [get-sass-vars-loader][get-sass-vars-loader] - Webpack loader for this module
+
 ## License
 
 MIT © [Ivan Nikolić](http://ivannikolic.com)
@@ -102,3 +106,4 @@ MIT © [Ivan Nikolić](http://ivannikolic.com)
 [ci]: https://travis-ci.org/niksy/get-sass-vars
 [ci-img]: https://img.shields.io/travis/niksy/get-sass-vars.svg
 [node-sass-options]: https://github.com/sass/node-sass#options
+[get-sass-vars-loader]: https://github.com/brianvoe/get-sass-vars-loader
