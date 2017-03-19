@@ -1,10 +1,12 @@
-var _ = require('lodash');
-var pify = require('pify');
-var stripOuter = require('strip-outer');
-var camelcaseKeys = require('camelcase-keys');
-var postcss = require('postcss');
-var sass = require('node-sass');
-var jsonFns = require('node-sass-json-functions');
+'use strict';
+
+const _ = require('lodash');
+const pify = require('pify');
+const stripOuter = require('strip-outer');
+const camelcaseKeys = require('camelcase-keys');
+const postcss = require('postcss');
+const sass = require('node-sass');
+const jsonFns = require('node-sass-json-functions');
 
 /**
  * @param  {String} inputCssStr
@@ -12,19 +14,19 @@ var jsonFns = require('node-sass-json-functions');
  *
  * @return {Promise}
  */
-module.exports = function ( inputCssStr, opts ) {
+module.exports = ( inputCssStr, opts ) => {
 
 	opts = opts || {};
 
 	return postcss().process(inputCssStr)
-		.then(function ( res ) {
+		.then(( res ) => {
 
-			var root = res.root;
-			var node = postcss.rule({
+			const root = res.root;
+			const node = postcss.rule({
 				selector: '.__sassVars__'
 			});
 
-			root.walkDecls(/^\$/, function ( decl ) {
+			root.walkDecls(/^\$/, ( decl ) => {
 				if ( decl.parent === root ) {
 					node.append({
 						prop: 'content',
@@ -40,28 +42,28 @@ module.exports = function ( inputCssStr, opts ) {
 			return root.toString();
 
 		})
-		.then(function ( cssStr ) {
+		.then(( cssStr ) => {
 
 			return pify(sass.render)(_.extend({
 				data: cssStr,
 				functions: Object.assign({}, jsonFns)
 			}, opts.sassOptions))
-				.then(function ( res ) {
+				.then(( res ) => {
 					return res.css.toString();
 				});
 
 		})
-		.then(function ( cssStr ) {
+		.then(( cssStr ) => {
 
 			return postcss().process(cssStr)
-				.then(function ( res ) {
+				.then(( res ) => {
 
-					var root = res.root;
-					var data = {};
+					const root = res.root;
+					const data = {};
 
-					root.walkRules('.__sassVars__', function ( rule ) {
-						rule.walkDecls('content', function ( decl ) {
-							var val = decl.value.split(' ":" ');
+					root.walkRules('.__sassVars__', ( rule ) => {
+						rule.walkDecls('content', ( decl ) => {
+							const val = decl.value.split(' ":" ');
 							data[stripOuter(val[0], '"')] = JSON.parse(stripOuter(val[1], '\''));
 						});
 					});
@@ -71,10 +73,10 @@ module.exports = function ( inputCssStr, opts ) {
 				});
 
 		})
-		.then(function ( data ) {
+		.then(( data ) => {
 
 			if ( opts.camelize ) {
-				return camelcaseKeys(_.mapKeys(data, function ( val, key ) {
+				return camelcaseKeys(_.mapKeys(data, ( val, key ) => {
 					return stripOuter(key, '$');
 				}));
 			}
