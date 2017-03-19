@@ -15,8 +15,8 @@
   "dependencies": {
     "camelcase-keys": "^3.0.0",
     "lodash": "^4.15.0",
-    "node-sass": "^3.8.0",
-    "node-sass-json-functions": "^1.1.1",
+    "node-sass": "^4.5.0",
+    "node-sass-json-functions": "^2.0.1",
     "pify": "^2.3.0",
     "postcss": "^5.1.1",
     "strip-outer": "^1.0.0"
