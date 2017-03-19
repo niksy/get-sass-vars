@@ -104,6 +104,6 @@ Type: `Object`
 MIT © [Ivan Nikolić](http://ivannikolic.com)
 
 [ci]: https://travis-ci.org/niksy/get-sass-vars
-[ci-img]: https://img.shields.io/travis/niksy/get-sass-vars.svg
+[ci-img]: https://travis-ci.org/niksy/get-sass-vars.svg?branch=master
 [node-sass-options]: https://github.com/sass/node-sass#options
 [get-sass-vars-loader]: https://github.com/brianvoe/get-sass-vars-loader
