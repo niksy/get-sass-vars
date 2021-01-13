@@ -1,10 +1,11 @@
 import { promisify } from 'util';
-import { extend, mapKeys } from 'lodash';
 import stripOuter from 'strip-outer';
 import camelcaseKeys from 'camelcase-keys';
 import postcss from 'postcss';
-import sass from 'node-sass';
+import sass from 'sass';
+import Fiber from 'fibers';
 import jsonFns from 'node-sass-json-functions';
+import fromEntries from '@ungap/from-entries';
 
 const noop = () => ({
 	postcssPlugin: '_noop'
@@ -46,15 +47,14 @@ export default async (inputCssString, options = {}) => {
 	});
 	root.append(node);
 
-	response = await promisify(sass.render)(
-		extend(
-			{
-				data: root.toString(),
-				functions: { ...jsonFns }
-			},
-			sassOptions
-		)
-	);
+	const { functions, ...otherSassOptions } = sassOptions;
+
+	response = await promisify(sass.render)({
+		fiber: Fiber,
+		data: root.toString(),
+		functions: { ...jsonFns, ...functions },
+		...otherSassOptions
+	});
 
 	response = await cssProcessor.process(response.css.toString(), {
 		from: undefined
@@ -74,7 +74,12 @@ export default async (inputCssString, options = {}) => {
 
 	if (camelize) {
 		return camelcaseKeys(
-			mapKeys(data, (value, key) => stripOuter(key, '$'))
+			fromEntries(
+				Object.entries(data).map(([key, value]) => [
+					stripOuter(key, '$'),
+					value
+				])
+			)
 		);
 	}
 	return data;

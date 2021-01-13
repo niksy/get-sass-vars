@@ -32,15 +32,16 @@
     "postpublish": "GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog",
     "release": "np --no-release-draft",
     "test": "([[ -z $WATCH_TEST ]] && npm run lint || echo) && nyc mocha --require esm 'test/**/*.js' && nyc check-coverage",
-    "test:watch": "WATCH_TEST=1 nodemon --exec npm test",
+    "test:watch": "WATCH_TEST=1 nodemon --ext js,json,scss --exec npm test",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
   "dependencies": {
+    "@ungap/from-entries": "^0.2.1",
     "camelcase-keys": "^6.2.2",
-    "lodash": "^4.17.20",
-    "node-sass": "^4.5.0",
-    "node-sass-json-functions": "^2.0.1",
+    "fibers": "^5.0.0",
+    "node-sass-json-functions": "^3.1.0",
     "postcss": "^8.2.4",
+    "sass": "^1.32.4",
     "strip-outer": "^1.0.1"
   },
   "devDependencies": {

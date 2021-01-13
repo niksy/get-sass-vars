@@ -29,18 +29,3 @@ it('should camelcase Sass variable names and use them as JSON object keys', asyn
 
 	assert.deepEqual(actual, expected);
 });
-
-it('should use provided Sass options for Sass rendering', async function () {
-	const [expected, actual] = await Promise.all([
-		loadJsonFile(
-			path.resolve(__dirname, './fixtures/sass-options.expected.json')
-		),
-		processStyle('./test/fixtures/index.scss', {
-			sassOptions: {
-				precision: 2
-			}
-		})
-	]);
-
-	assert.deepEqual(actual, expected);
-});

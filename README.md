@@ -100,7 +100,7 @@ become `fooBar`).
 
 Type: `object`
 
-[Options for node-sass][node-sass-options].
+[Options for sass][node-sass-options].
 
 ## Related
 
