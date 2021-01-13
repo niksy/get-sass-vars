@@ -13,26 +13,27 @@ npm install get-sass-vars --save
 ## Usage
 
 ```js
-var fs = require('fs');
-var sassVars = require('get-sass-vars');
+import { promises as fs } from 'fs';
+import sassVars from 'get-sass-vars';
 
-sassVars(fs.readFileSync('./index.scss', 'utf-8'))
-	.then(function ( json ) {
-		console.log(json);
-		/* {
-			"$foo": "16px",
-			"$bar": "17.6px",
-			"$baz": 42,
-			"$foo-bar": "#666",
-			"$foo-bar-baz": "#262626",
-			"$foo-bar-baz-bad": "#123",
-			"$grault": [1, 2, "3", "4px", "42%", "1.23457px", [4, 5, 6], {"foo": "bar baz"}],
-			"$garply": {"foo": 1, "bar": [2, 3], "baz": "3 3 3"},
-			"$qux": false,
-			"$fred": true,
-			"$corgle": null
-		} */
-	});
+(async () => {
+	const css = await fs.readFile('./index.scss', 'utf-8');
+	const json = await sassVars(css);
+	console.log(json);
+	/* {
+		"$foo": "16px",
+		"$bar": "17.6px",
+		"$baz": 42,
+		"$foo-bar": "#666",
+		"$foo-bar-baz": "#262626",
+		"$foo-bar-baz-bad": "#123",
+		"$grault": [1, 2, "3", "4px", "42%", "1.23457px", [4, 5, 6], {"foo": "bar baz"}],
+		"$garply": {"foo": 1, "bar": [2, 3], "baz": "3 3 3"},
+		"$qux": false,
+		"$fred": true,
+		"$corgle": null
+	} */
+})();
 ```
 
 ### `index.scss`
@@ -44,18 +45,22 @@ $baz: 42;
 $foo-bar: #666;
 $foo-bar-baz: darken($foo-bar, 25%);
 $foo-bar-baz-bad: #123 !default;
-$grault: 1, 2, "3", 4px, 42%, 1.23456789px, (4,5,6), (foo: "bar baz");
+$grault: 1, 2, '3', 4px, 42%, 1.23456789px, (4, 5, 6), (
+		foo: 'bar baz'
+	);
 $garply: (
 	foo: 1,
-	bar: (2, 3),
-	baz: "3 3 3"
+	bar: (
+		2,
+		3
+	),
+	baz: '3 3 3'
 );
 $qux: false;
 $fred: true;
 $corgle: null;
 
 .nested {
-
 	.selector {
 		$nested-var: thud;
 	}
@@ -64,46 +69,53 @@ $corgle: null;
 
 ## API
 
-### sassVars(str, [opts])
+### sassVars(string[, options])
 
 Returns: `Promise`
 
 Gets Sass variables from Sass string.
 
-Only top-level variables will be considered, anything inside selector or at-rule is ignored.
+Only top-level variables will be considered, anything inside selector or at-rule
+is ignored.
 
-#### str
+#### string
 
-Type: `String`
+Type: `string`
 
 Sass input string.
 
-#### opts
+#### options
 
-Type: `Object`
+Type: `object`
 
 ##### camelize
 
-Type: `Boolean`  
+Type: `boolean`  
 Default: `false`
 
-Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
+Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will
+become `fooBar`).
 
 ##### sassOptions
 
-Type: `Object`
+Type: `object`
 
 [Options for node-sass][node-sass-options].
 
 ## Related
 
-* [get-sass-vars-loader][get-sass-vars-loader] - Webpack loader for this module
+-   [get-sass-vars-loader][get-sass-vars-loader] - Webpack loader for this
+    module
 
 ## License
 
 MIT © [Ivan Nikolić](http://ivannikolic.com)
 
+<!-- prettier-ignore-start -->
+
 [ci]: https://travis-ci.org/niksy/get-sass-vars
 [ci-img]: https://travis-ci.org/niksy/get-sass-vars.svg?branch=master
 [node-sass-options]: https://github.com/sass/node-sass#options
 [get-sass-vars-loader]: https://github.com/brianvoe/get-sass-vars-loader
+
+<!-- prettier-ignore-end -->

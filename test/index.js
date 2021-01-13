@@ -1,52 +1,46 @@
-'use strict';
+import assert from 'assert';
+import { promises as fs } from 'fs';
+import path from 'path';
+import loadJsonFile from 'load-json-file';
+import function_ from '../index';
 
-const assert = require('assert');
-const fs = require('fs');
-const pify = require('pify');
-const fn = require('../');
+async function processStyle(file, options = {}) {
+	const response = await fs.readFile(file, 'utf-8');
+	const actual = await function_(response, options);
+	return actual;
+}
 
-it('should create JSON object from Sass variables', function () {
+it('should create JSON object from Sass variables', async function () {
+	const [expected, actual] = await Promise.all([
+		loadJsonFile(path.resolve(__dirname, './fixtures/basic.expected.json')),
+		processStyle('./test/fixtures/index.scss')
+	]);
 
-	const expected = require('./fixtures/basic.expected.json');
-
-	return pify(fs.readFile)('./test/fixtures/index.scss', 'utf-8')
-		.then(( res ) => {
-			return fn(res);
-		})
-		.then(( actual ) => {
-			assert.deepEqual(actual, expected);
-		});
-
+	assert.deepEqual(actual, expected);
 });
 
-it('should camelcase Sass variable names and use them as JSON object keys', function () {
+it('should camelcase Sass variable names and use them as JSON object keys', async function () {
+	const [expected, actual] = await Promise.all([
+		loadJsonFile(
+			path.resolve(__dirname, './fixtures/camelcase.expected.json')
+		),
+		processStyle('./test/fixtures/index.scss', { camelize: true })
+	]);
 
-	const expected = require('./fixtures/camelcase.expected.json');
-
-	return pify(fs.readFile)('./test/fixtures/index.scss', 'utf-8')
-		.then(( res ) => {
-			return fn(res, { camelize: true });
-		})
-		.then(( actual ) => {
-			assert.deepEqual(actual, expected);
-		});
-
+	assert.deepEqual(actual, expected);
 });
 
-it('should use provided Sass options for Sass rendering', function () {
-
-	const expected = require('./fixtures/sass-options.expected.json');
-
-	return pify(fs.readFile)('./test/fixtures/index.scss', 'utf-8')
-		.then(( res ) => {
-			return fn(res, {
-				sassOptions: {
-					precision: 2
-				}
-			});
+it('should use provided Sass options for Sass rendering', async function () {
+	const [expected, actual] = await Promise.all([
+		loadJsonFile(
+			path.resolve(__dirname, './fixtures/sass-options.expected.json')
+		),
+		processStyle('./test/fixtures/index.scss', {
+			sassOptions: {
+				precision: 2
+			}
 		})
-		.then(( actual ) => {
-			assert.deepEqual(actual, expected);
-		});
+	]);
 
+	assert.deepEqual(actual, expected);
 });

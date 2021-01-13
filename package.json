@@ -2,33 +2,75 @@
   "name": "get-sass-vars",
   "version": "2.0.0",
   "description": "Get Sass variables as JSON object.",
-  "main": "index.js",
-  "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
   "license": "MIT",
+  "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./esm/index.js",
+      "require": "./cjs/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
   "directories": {
     "test": "test"
   },
+  "files": [
+    "cjs/",
+    "esm/",
+    "CHANGELOG.md",
+    "LICENSE.md",
+    "README.md"
+  ],
   "scripts": {
-    "start": "node index.js",
-    "test": "eslint {index,test/**/*}.js && istanbul cover _mocha test/**/*.js && istanbul check-coverage"
+    "build": "rollup --config rollup.config.js",
+    "lint": "eslint '{index,lib/**/*,test/**/*}.js'",
+    "module-check": "node -e 'require(\"get-sass-vars\");' && node --input-type=module -e 'import \"get-sass-vars\";'",
+    "prepublishOnly": "npm run build && npm run module-check",
+    "postpublish": "GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog",
+    "release": "np --no-release-draft",
+    "test": "([[ -z $WATCH_TEST ]] && npm run lint || echo) && nyc mocha --require esm 'test/**/*.js' && nyc check-coverage",
+    "test:watch": "WATCH_TEST=1 nodemon --exec npm test",
+    "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
   "dependencies": {
-    "camelcase-keys": "^3.0.0",
-    "lodash": "^4.15.0",
+    "camelcase-keys": "^6.2.2",
+    "lodash": "^4.17.20",
     "node-sass": "^4.5.0",
     "node-sass-json-functions": "^2.0.1",
-    "pify": "^2.3.0",
-    "postcss": "^5.1.1",
-    "strip-outer": "^1.0.0"
+    "postcss": "^8.2.4",
+    "strip-outer": "^1.0.1"
   },
   "devDependencies": {
-    "eslint": "^3.1.1",
-    "eslint-config-niksy": "^3.0.1",
-    "istanbul": "^0.4.3",
-    "mocha": "^3.1.2"
+    "changelog-verify": "^1.1.2",
+    "eslint": "^7.11.0",
+    "eslint-config-niksy": "^9.0.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-plugin-extend": "^0.1.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsdoc": "^30.7.3",
+    "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-unicorn": "^23.0.0",
+    "esm": "^3.0.51",
+    "github-release-from-changelog": "^2.1.1",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.2",
+    "load-json-file": "^6.2.0",
+    "mocha": "^8.2.0",
+    "nodemon": "^2.0.6",
+    "np": "^6.5.0",
+    "nyc": "^15.1.0",
+    "prettier": "^2.1.2",
+    "rollup": "^2.32.1",
+    "version-changelog": "^3.1.1"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=10"
   },
   "keywords": [
     "export",
