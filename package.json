@@ -1,6 +1,6 @@
 {
   "name": "get-sass-vars",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Get Sass variables as JSON object.",
   "license": "MIT",
   "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
