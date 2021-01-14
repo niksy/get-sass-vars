@@ -2,6 +2,7 @@ import { promisify } from 'util';
 import stripOuter from 'strip-outer';
 import camelcaseKeys from 'camelcase-keys';
 import postcss from 'postcss';
+import postcssScss from 'postcss-scss';
 import sass from 'sass';
 import Fiber from 'fibers';
 import jsonFns from 'node-sass-json-functions';
@@ -24,6 +25,7 @@ export default async (inputCssString, options = {}) => {
 
 	/* eslint-disable no-undefined */
 	let response = await cssProcessor.process(inputCssString, {
+		syntax: postcssScss,
 		from: undefined
 	});
 	let root = response.root;
