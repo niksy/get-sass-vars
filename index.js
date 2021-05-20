@@ -1,10 +1,8 @@
-import { promisify } from 'util';
 import stripOuter from 'strip-outer';
 import camelcaseKeys from 'camelcase-keys';
 import postcss from 'postcss';
 import postcssScss from 'postcss-scss';
 import sass from 'sass';
-import Fiber from 'fibers';
 import jsonFns from 'node-sass-json-functions';
 import fromEntries from '@ungap/from-entries';
 
@@ -51,8 +49,7 @@ export default async (inputCssString, options = {}) => {
 
 	const { functions, ...otherSassOptions } = sassOptions;
 
-	response = await promisify(sass.render)({
-		fiber: Fiber,
+	response = sass.renderSync({
 		data: root.toString(),
 		functions: { ...jsonFns, ...functions },
 		...otherSassOptions
