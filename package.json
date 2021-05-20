@@ -38,7 +38,6 @@
   "dependencies": {
     "@ungap/from-entries": "^0.2.1",
     "camelcase-keys": "^6.2.2",
-    "fibers": "^5.0.0",
     "node-sass-json-functions": "^3.1.0",
     "postcss": "^8.2.4",
     "postcss-scss": "^3.0.4",
