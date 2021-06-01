@@ -1,3 +1,4 @@
+import { promisify } from 'util';
 import stripOuter from 'strip-outer';
 import camelcaseKeys from 'camelcase-keys';
 import postcss from 'postcss';
@@ -49,7 +50,7 @@ export default async (inputCssString, options = {}) => {
 
 	const { functions, ...otherSassOptions } = sassOptions;
 
-	response = sass.renderSync({
+	response = await promisify(sass.render)({
 		data: root.toString(),
 		functions: { ...jsonFns, ...functions },
 		...otherSassOptions
