@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [3.1.0][] - 2021-06-01
+
 ### Removed
 
 -   Dependency on `node-fibers` (Node 16 compatibility)
@@ -27,3 +29,5 @@
 [3.0.0]: https://github.com/niksy/get-sass-vars/tree/v3.0.0
 [unreleased]: https://github.com/niksy/get-sass-vars/compare/v3.0.1...HEAD
 [3.0.1]: https://github.com/niksy/get-sass-vars/tree/v3.0.1
+[unreleased]: https://github.com/niksy/get-sass-vars/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/niksy/get-sass-vars/tree/v3.1.0
