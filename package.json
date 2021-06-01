@@ -33,7 +33,7 @@
     "release": "np --no-release-draft",
     "test": "([[ -z $WATCH_TEST ]] && npm run lint || echo) && nyc mocha --require esm 'test/**/*.js' && nyc check-coverage",
     "test:watch": "WATCH_TEST=1 nodemon --ext js,json,scss --exec npm test",
-    "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
+    "version": "if [[ $(git rev-parse --abbrev-ref HEAD) == 'master' ]]; then version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md; else echo; fi"
   },
   "dependencies": {
     "@ungap/from-entries": "^0.2.1",
