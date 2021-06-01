@@ -2,6 +2,11 @@
 
 ## [Unreleased][]
 
+### Removed
+
+-   Dependency on `node-fibers` (Node 16 compatibility)
+    -   You can still pass Fibers implementation through `sassOptions` parameter
+
 ## [3.0.1][] - 2021-01-14
 
 ### Fixed
