@@ -113,8 +113,8 @@ MIT © [Ivan Nikolić](http://ivannikolic.com)
 
 <!-- prettier-ignore-start -->
 
-[ci]: https://travis-ci.org/niksy/get-sass-vars
-[ci-img]: https://travis-ci.org/niksy/get-sass-vars.svg?branch=master
+[ci]: https://github.com/niksy/get-sass-vars/actions?query=workflow%3ACI
+[ci-img]: https://github.com/niksy/get-sass-vars/workflows/CI/badge.svg?branch=master
 [node-sass-options]: https://github.com/sass/node-sass#options
 [get-sass-vars-loader]: https://github.com/brianvoe/get-sass-vars-loader
 

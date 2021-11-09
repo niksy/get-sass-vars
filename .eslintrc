@@ -8,5 +8,18 @@
 	"plugins": ["eslint-plugin-prettier"],
 	"rules": {
 		"prettier/prettier": 1
-	}
+	},
+	"overrides": [
+		{
+			"files": ["rollup.config.js"],
+			"parserOptions": {
+				"sourceType": "script"
+			},
+			"plugins": ["eslint-plugin-unicorn"],
+			"rules": {
+				"no-console": 0,
+				"unicorn/numeric-separators-style": 0
+			}
+		}
+	]
 }
