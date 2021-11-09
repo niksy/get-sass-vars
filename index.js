@@ -12,6 +12,13 @@ const noop = () => ({
 });
 
 /**
+ * @typedef {JsonPrimitive | JsonObject | JsonArray} JsonValue
+ * @typedef {JsonValue[]} JsonArray
+ * @typedef {string | number | boolean | null} JsonPrimitive
+ * @typedef {{[Key in string]?: JsonValue}} JsonObject
+ */
+
+/**
  * @typedef {import('sass').Options} _sass.Options
  */
 
@@ -76,7 +83,7 @@ async function main(input, options) {
 	);
 	const finalRoot = finalResponse.root;
 
-	/** @type {{[key: string]: string}} */
+	/** @type {JsonObject} */
 	const data = {};
 
 	finalRoot.walkRules('.__sassVars__', (rule) => {
@@ -89,12 +96,14 @@ async function main(input, options) {
 	});
 
 	if (camelize) {
-		return camelcaseKeys(
-			fromEntries(
-				Object.entries(data).map(([key, value]) => [
-					stripOuter(key, '$'),
-					value
-				])
+		return /** @type {JsonObject} */ (
+			camelcaseKeys(
+				fromEntries(
+					Object.entries(data).map(([key, value]) => [
+						stripOuter(key, '$'),
+						value
+					])
+				)
 			)
 		);
 	}
