@@ -71,7 +71,7 @@ $corgle: null;
 
 ### sassVars(input[, options])
 
-Returns: `Promise`
+Returns: `Promise<JsonObject>`
 
 Gets Sass variables from Sass string.
 
@@ -98,7 +98,8 @@ become `fooBar`).
 
 ##### sassOptions
 
-Type: `object`
+Type: `sass.Options`  
+Default: `{}`
 
 [Options for Sass renderer][node-sass-options].
 
