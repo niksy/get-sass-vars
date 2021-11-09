@@ -4,7 +4,15 @@ import path from 'path';
 import loadJsonFile from 'load-json-file';
 import function_ from '../index';
 
-async function processStyle(file, options = {}) {
+/**
+ * @typedef {import('../index').Options} Options
+ */
+
+/**
+ * @param {string}  file
+ * @param {Options} [options]
+ */
+async function processStyle(file, options) {
 	const response = await fs.readFile(file, 'utf-8');
 	const actual = await function_(response, options);
 	return actual;

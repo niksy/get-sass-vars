@@ -69,7 +69,7 @@ $corgle: null;
 
 ## API
 
-### sassVars(string[, options])
+### sassVars(input[, options])
 
 Returns: `Promise`
 
@@ -78,7 +78,7 @@ Gets Sass variables from Sass string.
 Only top-level variables will be considered, anything inside selector or at-rule
 is ignored.
 
-#### string
+#### input
 
 Type: `string`
 
@@ -100,7 +100,7 @@ become `fooBar`).
 
 Type: `object`
 
-[Options for sass][node-sass-options].
+[Options for Sass renderer][node-sass-options].
 
 ## Related
 

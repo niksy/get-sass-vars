@@ -12,29 +12,41 @@ const noop = () => ({
 });
 
 /**
- * @param {string} inputCssString
- * @param {object} options
- *
- * @returns {Promise<object>}
+ * @typedef {import('sass').Options} _sass.Options
  */
-export default async (inputCssString, options = {}) => {
-	const { camelize = false, sassOptions = {} } = options;
+
+/**
+ * @typedef {object} Options
+ * @property {boolean}       [camelize]    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
+ * @property {_sass.Options} [sassOptions] Options for Sass renderer.
+ */
+
+/**
+ * Gets Sass variables from Sass string.
+ *
+ * Only top-level variables will be considered, anything inside selector or at-rule is ignored.
+ *
+ * @param {string}  input     Sass input string.
+ * @param {Options} [options]
+ */
+async function main(input, options) {
+	const { camelize = false, sassOptions = {} } = options || {};
 
 	const cssProcessor = postcss([noop()]);
 
 	/* eslint-disable no-undefined */
-	let response = await cssProcessor.process(inputCssString, {
+	const initialResponse = await cssProcessor.process(input, {
 		syntax: postcssScss,
 		from: undefined
 	});
-	let root = response.root;
+	const initialRoot = initialResponse.root;
 
 	const node = postcss.rule({
 		selector: '.__sassVars__'
 	});
 
-	root.walkDecls(/^\$/, (decl) => {
-		if (decl.parent === root) {
+	initialRoot.walkDecls(/^\$/, (decl) => {
+		if (decl.parent === initialRoot) {
 			node.append({
 				prop: 'content',
 
@@ -46,24 +58,28 @@ export default async (inputCssString, options = {}) => {
 			});
 		}
 	});
-	root.append(node);
+	initialRoot.append(node);
 
 	const { functions, ...otherSassOptions } = sassOptions;
 
-	response = await promisify(sass.render)({
-		data: root.toString(),
+	const sassResponse = await promisify(sass.render)({
+		data: initialRoot.toString(),
 		functions: { ...jsonFns, ...functions },
 		...otherSassOptions
 	});
 
-	response = await cssProcessor.process(response.css.toString(), {
-		from: undefined
-	});
-	root = response.root;
+	const finalResponse = await cssProcessor.process(
+		sassResponse.css.toString(),
+		{
+			from: undefined
+		}
+	);
+	const finalRoot = finalResponse.root;
 
+	/** @type {{[key: string]: string}} */
 	const data = {};
 
-	root.walkRules('.__sassVars__', (rule) => {
+	finalRoot.walkRules('.__sassVars__', (rule) => {
 		rule.walkDecls('content', (decl) => {
 			const [property, value] = decl.value.split(' ":" ');
 			data[stripOuter(property, '"')] = JSON.parse(
@@ -83,4 +99,6 @@ export default async (inputCssString, options = {}) => {
 		);
 	}
 	return data;
-};
+}
+
+export default main;

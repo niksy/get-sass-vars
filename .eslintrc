@@ -2,10 +2,16 @@
 	"root": true,
 	"extends": [
 		"eslint-config-niksy",
+		"eslint-config-niksy/typescript",
 		"eslint-config-niksy/next",
 		"eslint-config-prettier"
 	],
 	"plugins": ["eslint-plugin-prettier"],
+	"settings": {
+		"jsdoc": {
+			"preferredTypes": ["_sass"]
+		}
+	},
 	"rules": {
 		"prettier/prettier": 1
 	},
