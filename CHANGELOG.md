@@ -2,6 +2,16 @@
 
 ## [Unreleased][]
 
+### Added
+
+-   TypeScript types
+
+### Changed
+
+-   Update `postcss-scss`
+-   Use GitHub Actions instead of Travis
+-   Upgrade package
+
 ## [3.1.0][] - 2021-06-01
 
 ### Removed
