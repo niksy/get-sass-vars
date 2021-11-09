@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [3.2.0][] - 2021-11-09
+
 ### Added
 
 -   TypeScript types
@@ -41,3 +43,5 @@
 [3.0.1]: https://github.com/niksy/get-sass-vars/tree/v3.0.1
 [unreleased]: https://github.com/niksy/get-sass-vars/compare/v3.1.0...HEAD
 [3.1.0]: https://github.com/niksy/get-sass-vars/tree/v3.1.0
+[unreleased]: https://github.com/niksy/get-sass-vars/compare/v3.2.0...HEAD
+[3.2.0]: https://github.com/niksy/get-sass-vars/tree/v3.2.0
