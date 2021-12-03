@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [3.2.1][] - 2021-12-03
+
 ### Fixed
 
 -   TypeScript definitions
@@ -44,9 +46,8 @@
 -   **Node 4 support, lowest version is 10**
 
 [3.0.0]: https://github.com/niksy/get-sass-vars/tree/v3.0.0
-[unreleased]: https://github.com/niksy/get-sass-vars/compare/v3.0.1...HEAD
 [3.0.1]: https://github.com/niksy/get-sass-vars/tree/v3.0.1
-[unreleased]: https://github.com/niksy/get-sass-vars/compare/v3.1.0...HEAD
 [3.1.0]: https://github.com/niksy/get-sass-vars/tree/v3.1.0
-[unreleased]: https://github.com/niksy/get-sass-vars/compare/v3.2.0...HEAD
 [3.2.0]: https://github.com/niksy/get-sass-vars/tree/v3.2.0
+[unreleased]: https://github.com/niksy/get-sass-vars/compare/v3.2.1...HEAD
+[3.2.1]: https://github.com/niksy/get-sass-vars/tree/v3.2.1
