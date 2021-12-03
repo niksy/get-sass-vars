@@ -24,8 +24,8 @@ const noop = () => ({
 
 /**
  * @typedef {object} Options
- * @property {boolean}       [camelize]    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
- * @property {_sass.Options} [sassOptions] Options for Sass renderer.
+ * @property {boolean=}       camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
+ * @property {_sass.Options=} sassOptions Options for Sass renderer.
  */
 
 /**
@@ -33,8 +33,8 @@ const noop = () => ({
  *
  * Only top-level variables will be considered, anything inside selector or at-rule is ignored.
  *
- * @param {string}  input     Sass input string.
- * @param {Options} [options]
+ * @param {string}   input   Sass input string.
+ * @param {Options=} options
  */
 async function main(input, options) {
 	const { camelize = false, sassOptions = {} } = options || {};

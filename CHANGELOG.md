@@ -2,6 +2,11 @@
 
 ## [Unreleased][]
 
+### Fixed
+
+-   TypeScript definitions
+    ([#4](https://github.com/niksy/get-sass-vars/issues/4))
+
 ## [3.2.0][] - 2021-11-09
 
 ### Added
