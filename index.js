@@ -19,13 +19,14 @@ const noop = () => ({
  */
 
 /**
- * @typedef {import('sass').Options} _sass.Options
+ * @typedef {sass.Options<"sync"|"async">|sass.LegacyOptions<"sync"|"async">} SassOptions
  */
 
 /**
  * @typedef {object} Options
- * @property {boolean=}       camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
- * @property {_sass.Options=} sassOptions Options for Sass renderer.
+ * @property {boolean=}     camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
+ * @property {number=}      precision   Number of digits after the decimal.
+ * @property {SassOptions=} sassOptions Options for Sass renderer.
  */
 
 /**
@@ -37,7 +38,11 @@ const noop = () => ({
  * @param {Options=} options
  */
 async function main(input, options) {
-	const { camelize = false, sassOptions = {} } = options || {};
+	const {
+		camelize = false,
+		precision = 5,
+		sassOptions = /** @type {SassOptions} */ ({})
+	} = options || {};
 
 	const cssProcessor = postcss([noop()]);
 
@@ -61,7 +66,7 @@ async function main(input, options) {
 				 * Decl.prop as property is wrapped inside quotes so it doesn’t get transformed with Sass
 				 * decl.prop as value will be transformed with Sass
 				 */
-				value: `"${decl.prop}" ":" json-encode(${decl.prop})`
+				value: `"${decl.prop}" ":" json-encode(${decl.prop}, true, ${precision})`
 			});
 		}
 	});
@@ -69,18 +74,18 @@ async function main(input, options) {
 
 	const { functions, ...otherSassOptions } = sassOptions;
 
-	const sassResponse = await promisify(sass.render)({
+	let sassResponse = await promisify(sass.render)({
 		data: initialRoot.toString(),
 		functions: { ...jsonFns, ...functions },
 		...otherSassOptions
 	});
 
-	const finalResponse = await cssProcessor.process(
-		sassResponse.css.toString(),
-		{
-			from: undefined
-		}
-	);
+	let sassResponseString =
+		typeof sassResponse === 'undefined' ? '' : sassResponse.css.toString();
+
+	const finalResponse = await cssProcessor.process(sassResponseString, {
+		from: undefined
+	});
 	const finalRoot = finalResponse.root;
 
 	/** @type {JsonObject} */

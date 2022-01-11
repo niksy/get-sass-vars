@@ -96,9 +96,16 @@ Default: `false`
 Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will
 become `fooBar`).
 
+##### precision
+
+Type: `boolean`  
+Default: `5`
+
+Number of digits after the decimal.
+
 ##### sassOptions
 
-Type: `sass.Options`  
+Type: `sass.Options|sass.LegacyOptions`  
 Default: `{}`
 
 [Options for Sass renderer][node-sass-options].

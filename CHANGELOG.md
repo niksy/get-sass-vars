@@ -2,6 +2,10 @@
 
 ## [Unreleased][]
 
+### Added
+
+-   Precision option ([#5](https://github.com/niksy/get-sass-vars/issues/5))
+
 ## [3.2.1][] - 2021-12-03
 
 ### Fixed
@@ -44,6 +48,8 @@
 ### Removed
 
 -   **Node 4 support, lowest version is 10**
+
+<!-- prettier-ignore-start -->
 
 [3.0.0]: https://github.com/niksy/get-sass-vars/tree/v3.0.0
 [3.0.1]: https://github.com/niksy/get-sass-vars/tree/v3.0.1
