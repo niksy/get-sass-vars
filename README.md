@@ -12,6 +12,8 @@ npm install get-sass-vars --save
 
 ## Usage
 
+### Async
+
 ```js
 import { promises as fs } from 'fs';
 import sassVars from 'get-sass-vars';
@@ -34,6 +36,32 @@ import sassVars from 'get-sass-vars';
 		"$corgle": null
 	} */
 })();
+```
+
+### Sync
+
+```js
+import fs from 'fs';
+import sassVars from 'get-sass-vars';
+
+const css = fs.readFileSync(path.resolve(__dirname, './index.scss'), {
+	encoding: 'utf8'
+});
+const json = sassVars.sync(css);
+console.log(json);
+/* {
+		"$foo": "16px",
+		"$bar": "17.6px",
+		"$baz": 42,
+		"$foo-bar": "#666",
+		"$foo-bar-baz": "#262626",
+		"$foo-bar-baz-bad": "#123",
+		"$grault": [1, 2, "3", "4px", "42%", "1.23457px", [4, 5, 6], {"foo": "bar baz"}],
+		"$garply": {"foo": 1, "bar": [2, 3], "baz": "3 3 3"},
+		"$qux": false,
+		"$fred": true,
+		"$corgle": null
+	} */
 ```
 
 ### `index.scss`
@@ -71,7 +99,10 @@ $corgle: null;
 
 ### sassVars(input[, options])
 
-Returns: `Promise<JsonObject>`
+Returns:
+
+-   async `Promise<JsonObject>`
+-   sync `JsonObject`
 
 Gets Sass variables from Sass string.
 

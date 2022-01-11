@@ -110,4 +110,86 @@ async function main(input, options) {
 	return data;
 }
 
+/**.
+ * .
+ * .
+ * .
+ * Gets Sass variables from Sass string. (Sync version)
+ *
+ * @param {string}   input   Sass input string.
+ * @param {Options=} options
+ */
+function sync(input, options) {
+	const { camelize = false, sassOptions = {} } = options || {};
+
+	const cssProcessor = postcss([noop()]);
+
+	/* eslint-disable no-undefined */
+	const initialResponse = cssProcessor.process(input, {
+		syntax: postcssScss,
+		from: undefined
+	});
+	const initialRoot = initialResponse.root;
+
+	const node = postcss.rule({
+		selector: '.__sassVars__'
+	});
+
+	initialRoot.walkDecls(/^\$/, (decl) => {
+		if (decl.parent === initialRoot) {
+			node.append({
+				prop: 'content',
+
+				/*
+				 * Decl.prop as property is wrapped inside quotes so it doesn’t get transformed with Sass
+				 * decl.prop as value will be transformed with Sass
+				 */
+				value: `"${decl.prop}" ":" json-encode(${decl.prop})`
+			});
+		}
+	});
+	initialRoot.append(node);
+
+	const { functions, ...otherSassOptions } = sassOptions;
+
+	const sassResponse = sass.renderSync({
+		data: initialRoot.toString(),
+		functions: { ...jsonFns, ...functions },
+		...otherSassOptions
+	});
+
+	const finalResponse = cssProcessor.process(sassResponse.css.toString(), {
+		from: undefined
+	});
+	const finalRoot = finalResponse.root;
+
+	/** @type {JsonObject} */
+	const data = {};
+
+	finalRoot.walkRules('.__sassVars__', (rule) => {
+		rule.walkDecls('content', (decl) => {
+			const [property, value] = decl.value.split(' ":" ');
+			data[stripOuter(property, '"')] = JSON.parse(
+				stripOuter(value, "'")
+			);
+		});
+	});
+
+	if (camelize) {
+		return /** @type {JsonObject} */ (
+			camelcaseKeys(
+				fromEntries(
+					Object.entries(data).map(([key, value]) => [
+						stripOuter(key, '$'),
+						value
+					])
+				)
+			)
+		);
+	}
+	return data;
+}
+
+main.sync = sync;
+
 export default main;
