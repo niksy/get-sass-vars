@@ -2,6 +2,10 @@
 
 ## [Unreleased][]
 
+### Added
+
+-   Sync version ([#6](https://github.com/niksy/get-sass-vars/issues/6))
+
 ## [3.3.0][] - 2022-01-11
 
 ### Added

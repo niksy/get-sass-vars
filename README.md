@@ -105,10 +105,19 @@ Number of digits after the decimal.
 
 ##### sassOptions
 
-Type: `sass.Options|sass.LegacyOptions`  
+Type: `sass.Options<"async">|sass.LegacyOptions<"async">`  
 Default: `{}`
 
 [Options for Sass renderer][node-sass-options].
+
+### sassVars.sync(input[, options])
+
+Returns: `JsonObject`
+
+Gets Sass variables from Sass string. Sync version.
+
+All arguments are same as async version, except `options.sassOptions` which is
+of type `sass.Options<"sync">|sass.LegacyOptions<"sync">`.
 
 ## Related
 
