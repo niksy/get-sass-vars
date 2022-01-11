@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [3.4.0][] - 2022-01-11
+
 ### Added
 
 -   Sync version ([#6](https://github.com/niksy/get-sass-vars/issues/6))
@@ -62,5 +64,6 @@
 [3.1.0]: https://github.com/niksy/get-sass-vars/tree/v3.1.0
 [3.2.0]: https://github.com/niksy/get-sass-vars/tree/v3.2.0
 [3.2.1]: https://github.com/niksy/get-sass-vars/tree/v3.2.1
-[unreleased]: https://github.com/niksy/get-sass-vars/compare/v3.3.0...HEAD
 [3.3.0]: https://github.com/niksy/get-sass-vars/tree/v3.3.0
+[unreleased]: https://github.com/niksy/get-sass-vars/compare/v3.4.0...HEAD
+[3.4.0]: https://github.com/niksy/get-sass-vars/tree/v3.4.0
