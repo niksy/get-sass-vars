@@ -6,14 +6,15 @@
 		"eslint-config-nitpick/next",
 		"eslint-config-prettier"
 	],
-	"plugins": ["eslint-plugin-prettier"],
+	"plugins": ["eslint-plugin-prettier", "eslint-plugin-import"],
 	"settings": {
 		"jsdoc": {
 			"preferredTypes": ["_sass"]
 		}
 	},
 	"rules": {
-		"prettier/prettier": 1
+		"prettier/prettier": 1,
+		"import/no-namespace": 0
 	},
 	"overrides": [
 		{

@@ -3,7 +3,7 @@ import stripOuter from 'strip-outer';
 import camelcaseKeys from 'camelcase-keys';
 import postcss from 'postcss';
 import postcssScss from 'postcss-scss';
-import sass from 'sass';
+import * as sass from 'sass';
 import jsonFns from 'node-sass-json-functions';
 import fromEntries from '@ungap/from-entries';
 
