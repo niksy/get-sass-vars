@@ -1,4 +1,3 @@
-import { promisify } from 'util';
 import stripOuter from 'strip-outer';
 import camelcaseKeys from 'camelcase-keys';
 import postcss from 'postcss';
@@ -15,22 +14,15 @@ import fromEntries from '@ungap/from-entries';
  */
 
 /**
- * @typedef {sass.Options<"async">|sass.LegacyOptions<"async">} SassAsyncOptions
- * @typedef {sass.Options<"sync">|sass.LegacyOptions<"sync">} SassSyncOptions
- */
-
-/**
  * @typedef {object} Options
- * @property {boolean=}          camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
- * @property {number=}           precision   Number of digits after the decimal.
- * @property {SassAsyncOptions=} sassOptions Options for Sass renderer.
+ * @property {boolean=}               camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
+ * @property {sass.Options<"async">=} sassOptions Options for Sass renderer.
  */
 
 /**
  * @typedef {object} SyncOptions
- * @property {boolean=}         camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
- * @property {number=}          precision   Number of digits after the decimal.
- * @property {SassSyncOptions=} sassOptions Options for Sass renderer.
+ * @property {boolean=}              camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
+ * @property {sass.Options<"sync">=} sassOptions Options for Sass renderer.
  */
 
 const sassVariableSelector = '.__sassVars__';
@@ -42,9 +34,8 @@ const noop = () => ({
 
 /**
  * @param {import('postcss').Declaration} decl
- * @param {number}                        precision
  */
-function getEncodedValueNode(decl, precision) {
+function getEncodedValueNode(decl) {
 	return {
 		prop: 'content',
 
@@ -52,7 +43,7 @@ function getEncodedValueNode(decl, precision) {
 		 * Decl.prop as property is wrapped inside quotes so it doesn’t get transformed with Sass
 		 * decl.prop as value will be transformed with Sass
 		 */
-		value: `"${decl.prop}" ":" json-encode(${decl.prop}, true, ${precision})`
+		value: `"${decl.prop}" ":" json-encode(${decl.prop}, $quotes: false)`
 	};
 }
 
@@ -67,8 +58,7 @@ function getEncodedValueNode(decl, precision) {
 async function main(input, options) {
 	const {
 		camelize = false,
-		precision = 5,
-		sassOptions = /** @type {SassAsyncOptions} */ ({})
+		sassOptions = /** @type {sass.Options<"async">} */ ({})
 	} = options || {};
 
 	const cssProcessor = postcss([noop()]);
@@ -86,15 +76,14 @@ async function main(input, options) {
 
 	initialRoot.walkDecls(sassVariableDeclarationRegex, (decl) => {
 		if (decl.parent === initialRoot) {
-			node.append(getEncodedValueNode(decl, precision));
+			node.append(getEncodedValueNode(decl));
 		}
 	});
 	initialRoot.append(node);
 
 	const { functions, ...otherSassOptions } = sassOptions;
 
-	let sassResponse = await promisify(sass.render)({
-		data: initialRoot.toString(),
+	let sassResponse = await sass.compileStringAsync(initialRoot.toString(), {
 		functions: { ...jsonFns, ...functions },
 		...otherSassOptions
 	});
@@ -112,10 +101,11 @@ async function main(input, options) {
 
 	finalRoot.walkRules(sassVariableSelector, (rule) => {
 		rule.walkDecls('content', (decl) => {
-			const [property, value] = decl.value.split(' ":" ');
-			data[stripOuter(property, '"')] = JSON.parse(
-				stripOuter(value, "'")
-			);
+			let [property, value] = decl.value.split(' ":" ');
+			property = stripOuter(property, '"');
+			value = stripOuter(value, '"');
+			value = stripOuter(value, "'");
+			data[property] = JSON.parse(value);
 		});
 	});
 
@@ -145,8 +135,7 @@ async function main(input, options) {
 function mainSync(input, options) {
 	const {
 		camelize = false,
-		precision = 5,
-		sassOptions = /** @type {SassSyncOptions} */ ({})
+		sassOptions = /** @type {sass.Options<"sync">} */ ({})
 	} = options || {};
 
 	const cssProcessor = postcss([noop()]);
@@ -164,15 +153,14 @@ function mainSync(input, options) {
 
 	initialRoot.walkDecls(sassVariableDeclarationRegex, (decl) => {
 		if (decl.parent === initialRoot) {
-			node.append(getEncodedValueNode(decl, precision));
+			node.append(getEncodedValueNode(decl));
 		}
 	});
 	initialRoot.append(node);
 
 	const { functions, ...otherSassOptions } = sassOptions;
 
-	let sassResponse = sass.renderSync({
-		data: initialRoot.toString(),
+	let sassResponse = sass.compileString(initialRoot.toString(), {
 		// @ts-ignore
 		functions: { ...jsonFns, ...functions },
 		...otherSassOptions
@@ -191,10 +179,11 @@ function mainSync(input, options) {
 
 	finalRoot.walkRules(sassVariableSelector, (rule) => {
 		rule.walkDecls('content', (decl) => {
-			const [property, value] = decl.value.split(' ":" ');
-			data[stripOuter(property, '"')] = JSON.parse(
-				stripOuter(value, "'")
-			);
+			let [property, value] = decl.value.split(' ":" ');
+			property = stripOuter(property, '"');
+			value = stripOuter(value, '"');
+			value = stripOuter(value, "'");
+			data[property] = JSON.parse(value);
 		});
 	});
 

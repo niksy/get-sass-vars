@@ -96,16 +96,9 @@ Default: `false`
 Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will
 become `fooBar`).
 
-##### precision
-
-Type: `boolean`  
-Default: `5`
-
-Number of digits after the decimal.
-
 ##### sassOptions
 
-Type: `sass.Options<"async">|sass.LegacyOptions<"async">`  
+Type: `sass.Options<"async">`  
 Default: `{}`
 
 [Options for Sass renderer][node-sass-options].
@@ -117,7 +110,7 @@ Returns: `JsonObject`
 Gets Sass variables from Sass string. Sync version.
 
 All arguments are same as async version, except `options.sassOptions` which is
-of type `sass.Options<"sync">|sass.LegacyOptions<"sync">`.
+of type `sass.Options<"sync">`.
 
 ## Related
 
