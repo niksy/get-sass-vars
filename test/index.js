@@ -2,7 +2,7 @@ import assert from 'assert';
 import _fs, { promises as fs } from 'fs';
 import path from 'path';
 import loadJsonFile from 'load-json-file';
-import function_ from '../index';
+import function_ from '../index.js';
 
 /**
  * @typedef {import('../index').Options} Options
