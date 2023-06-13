@@ -2,6 +2,21 @@
 
 ## [Unreleased][]
 
+### Changed
+
+-   Use [new Sass API](https://sass-lang.com/documentation/js-api)
+
+### Removed
+
+-   **Node 10 support, lowest version is 12.22**
+-   **Legacy Sass support, lowest version is 1.45**
+-   Precision option; Dart Sass defaults to a sufficiently high precision for
+    all existing browsers
+
+### Fixed
+
+-   ES module import implementation
+
 ## [3.4.0][] - 2022-01-11
 
 ### Added
