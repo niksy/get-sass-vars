@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [4.0.0][] - 2023-06-13
+
 ### Changed
 
 -   Use [new Sass API](https://sass-lang.com/documentation/js-api)
@@ -80,5 +82,6 @@
 [3.2.0]: https://github.com/niksy/get-sass-vars/tree/v3.2.0
 [3.2.1]: https://github.com/niksy/get-sass-vars/tree/v3.2.1
 [3.3.0]: https://github.com/niksy/get-sass-vars/tree/v3.3.0
-[unreleased]: https://github.com/niksy/get-sass-vars/compare/v3.4.0...HEAD
 [3.4.0]: https://github.com/niksy/get-sass-vars/tree/v3.4.0
+[Unreleased]: https://github.com/niksy/get-sass-vars/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/niksy/get-sass-vars/tree/v4.0.0
