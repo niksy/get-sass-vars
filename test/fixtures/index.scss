@@ -23,6 +23,11 @@ $garply: (
 $qux: false;
 $fred: true;
 $corgle: null;
+$winnie: url("/otis/winnie.svg");
+$riley: url('/otis/riley.svg');
+$kona: url(/otis/kona.svg);
+$double-quoted: 'this is "double quoted" text with some \'single quoted\' text';
+$single-quoted: "this is 'single quoted' text with some \"double quoted\" text";
 
 .nested {
 

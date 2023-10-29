@@ -2,6 +2,11 @@
 
 ## [Unreleased][]
 
+### Fixed
+
+-   Properly escape quotes for string values
+    ([#11](https://github.com/niksy/get-sass-vars/issues/11))
+
 ## [4.0.0][] - 2023-06-13
 
 ### Changed

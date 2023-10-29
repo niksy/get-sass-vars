@@ -48,6 +48,18 @@ function getEncodedValueNode(decl) {
 }
 
 /**
+ * @param {string} value
+ */
+function sanitizeValue(value) {
+	value = stripOuter(value, '"');
+	value = stripOuter(value, "'");
+	value = value.replaceAll('\\\\', '\\');
+	value = value.replace(/^\\"(.+)\\"$/, '"$1"');
+	value = value.replaceAll('\\\\', '\\');
+	return value;
+}
+
+/**
  * Gets Sass variables from Sass string.
  *
  * Only top-level variables will be considered, anything inside selector or at-rule is ignored.
@@ -103,8 +115,7 @@ async function main(input, options) {
 		rule.walkDecls('content', (decl) => {
 			let [property, value] = decl.value.split(' ":" ');
 			property = stripOuter(property, '"');
-			value = stripOuter(value, '"');
-			value = stripOuter(value, "'");
+			value = sanitizeValue(value);
 			data[property] = JSON.parse(value);
 		});
 	});
@@ -181,8 +192,7 @@ function mainSync(input, options) {
 		rule.walkDecls('content', (decl) => {
 			let [property, value] = decl.value.split(' ":" ');
 			property = stripOuter(property, '"');
-			value = stripOuter(value, '"');
-			value = stripOuter(value, "'");
+			value = sanitizeValue(value);
 			data[property] = JSON.parse(value);
 		});
 	});

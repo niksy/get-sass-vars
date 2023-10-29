@@ -32,5 +32,10 @@
 	},
 	"qux": false,
 	"fred": true,
-	"corgle": null
+	"corgle": null,
+	"winnie": "url(\"/otis/winnie.svg\")",
+	"riley": "url(\"/otis/riley.svg\")",
+	"kona": "url(/otis/kona.svg)",
+	"doubleQuoted": "this is \"double quoted\" text with some 'single quoted' text",
+	"singleQuoted": "this is 'single quoted' text with some \"double quoted\" text"
 }
