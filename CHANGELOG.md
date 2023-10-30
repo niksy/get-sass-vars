@@ -2,6 +2,10 @@
 
 ## [Unreleased][]
 
+### Changed
+
+-   Add changes for Node 12
+
 ## [4.0.1][] - 2023-10-29
 
 ### Fixed

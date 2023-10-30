@@ -5,6 +5,8 @@ import postcssScss from 'postcss-scss';
 import * as sass from 'sass';
 import jsonFns from 'node-sass-json-functions';
 import fromEntries from '@ungap/from-entries';
+// @ts-ignore
+import replaceAll from 'string-replace-all-ponyfill';
 
 /**
  * @typedef {JsonPrimitive | JsonObject | JsonArray} JsonValue
@@ -53,9 +55,9 @@ function getEncodedValueNode(decl) {
 function sanitizeValue(value) {
 	value = stripOuter(value, '"');
 	value = stripOuter(value, "'");
-	value = value.replaceAll('\\\\', '\\');
+	value = replaceAll(value, '\\\\', '\\');
 	value = value.replace(/^\\"(.+)\\"$/, '"$1"');
-	value = value.replaceAll('\\\\', '\\');
+	value = replaceAll(value, '\\\\', '\\');
 	return value;
 }
 

@@ -45,6 +45,7 @@
     "postcss": "^8.2.4",
     "postcss-scss": "^4.0.2",
     "sass": "^1.47.0",
+    "string-replace-all-ponyfill": "^1.0.1",
     "strip-outer": "^1.0.1"
   },
   "devDependencies": {
