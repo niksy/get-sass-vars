@@ -101,7 +101,7 @@ become `fooBar`).
 Type: `sass.Options<"async">`  
 Default: `{}`
 
-[Options for Sass renderer][node-sass-options].
+[Options for Sass renderer][sass-options].
 
 ### sassVars.sync(input[, options])
 
@@ -125,7 +125,7 @@ MIT © [Ivan Nikolić](http://ivannikolic.com)
 
 [ci]: https://github.com/niksy/get-sass-vars/actions?query=workflow%3ACI
 [ci-img]: https://github.com/niksy/get-sass-vars/workflows/CI/badge.svg?branch=master
-[node-sass-options]: https://github.com/sass/node-sass#options
+[sass-options]: https://sass-lang.com/documentation/js-api/interfaces/options/
 [get-sass-vars-loader]: https://github.com/brianvoe/get-sass-vars-loader
 
 <!-- prettier-ignore-end -->
