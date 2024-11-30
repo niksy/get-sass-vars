@@ -2,6 +2,10 @@
 
 ## [Unreleased][]
 
+### Fixed
+
+-   Missing Sass types with inline imports
+
 ## [4.0.2][] - 2023-10-30
 
 ### Changed
