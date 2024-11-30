@@ -6,7 +6,7 @@
 
 ### Fixed
 
--   Missing Sass types with inline imports
+-   Missing Sass types with inline imports ([#13](https://github.com/niksy/get-sass-vars/pull/13))
 
 ## [4.0.2][] - 2023-10-30
 
