@@ -17,14 +17,14 @@ import replaceAll from 'string-replace-all-ponyfill';
 
 /**
  * @typedef {object} Options
- * @property {boolean=}               camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
- * @property {sass.Options<"async">=} sassOptions Options for Sass renderer.
+ * @property {boolean=}                         camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
+ * @property {import("sass").Options<"async">=} sassOptions Options for Sass renderer.
  */
 
 /**
  * @typedef {object} SyncOptions
- * @property {boolean=}              camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
- * @property {sass.Options<"sync">=} sassOptions Options for Sass renderer.
+ * @property {boolean=}                        camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
+ * @property {import("sass").Options<"sync">=} sassOptions Options for Sass renderer.
  */
 
 const sassVariableSelector = '.__sassVars__';
@@ -72,7 +72,7 @@ function sanitizeValue(value) {
 async function main(input, options) {
 	const {
 		camelize = false,
-		sassOptions = /** @type {sass.Options<"async">} */ ({})
+		sassOptions = /** @type {import("sass").Options<"async">} */ ({})
 	} = options || {};
 
 	const cssProcessor = postcss([noop()]);
@@ -148,7 +148,7 @@ async function main(input, options) {
 function mainSync(input, options) {
 	const {
 		camelize = false,
-		sassOptions = /** @type {sass.Options<"sync">} */ ({})
+		sassOptions = /** @type {import("sass").Options<"sync">} */ ({})
 	} = options || {};
 
 	const cssProcessor = postcss([noop()]);
