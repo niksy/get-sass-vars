@@ -34,7 +34,7 @@
     "postpublish": "GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog",
     "prerelease": "npm run lint && npm run lint:types && npm run build && npm run module-check",
     "release": "np --no-release-draft",
-    "test": "nyc mocha --require esm 'test/**/*.js' && nyc check-coverage",
+    "test": "nyc mocha --require esm 'test/**/*.js' && tsc --noEmit ./cjs/index.d.ts ./esm/index.d.ts && nyc check-coverage",
     "test:watch": "nodemon --exec npm test",
     "version": "if [ $(git rev-parse --abbrev-ref HEAD) == 'master' ]; then sed -i '' '/\\[unreleased\\]:/d' CHANGELOG.md && version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md; else echo; fi"
   },
