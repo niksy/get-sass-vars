@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [4.0.3][] - 2024-11-30
+
 ### Fixed
 
 -   Missing Sass types with inline imports
@@ -100,7 +102,8 @@
 [3.2.1]: https://github.com/niksy/get-sass-vars/tree/v3.2.1
 [3.3.0]: https://github.com/niksy/get-sass-vars/tree/v3.3.0
 [3.4.0]: https://github.com/niksy/get-sass-vars/tree/v3.4.0
-[Unreleased]: https://github.com/niksy/get-sass-vars/compare/v4.0.2...HEAD
+[Unreleased]: https://github.com/niksy/get-sass-vars/compare/v4.0.3...HEAD
+[4.0.3]: https://github.com/niksy/get-sass-vars/compare/v4.0.2...v4.0.3
 [4.0.2]: https://github.com/niksy/get-sass-vars/compare/v4.0.1...v4.0.2
 [4.0.1]: https://github.com/niksy/get-sass-vars/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/niksy/get-sass-vars/tree/v4.0.0
