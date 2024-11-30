@@ -95,11 +95,15 @@ async function main(input, options) {
 	});
 	initialRoot.append(node);
 
-	const { functions, ...otherSassOptions } = sassOptions;
+	const { functions, silenceDeprecations, ...otherSassOptions } = sassOptions;
 
 	let sassResponse = await sass.compileStringAsync(initialRoot.toString(), {
 		functions: { ...jsonFns, ...functions },
-		...otherSassOptions
+		...otherSassOptions,
+		// eslint-disable-next-line unicorn/prefer-spread
+		silenceDeprecations: Array.from(
+			new Set([...(silenceDeprecations || []), 'color-4-api'])
+		)
 	});
 
 	let sassResponseString =
@@ -171,12 +175,16 @@ function mainSync(input, options) {
 	});
 	initialRoot.append(node);
 
-	const { functions, ...otherSassOptions } = sassOptions;
+	const { functions, silenceDeprecations, ...otherSassOptions } = sassOptions;
 
 	let sassResponse = sass.compileString(initialRoot.toString(), {
 		// @ts-ignore
 		functions: { ...jsonFns, ...functions },
-		...otherSassOptions
+		...otherSassOptions,
+		// eslint-disable-next-line unicorn/prefer-spread
+		silenceDeprecations: Array.from(
+			new Set([...(silenceDeprecations || []), 'color-4-api'])
+		)
 	});
 
 	let sassResponseString =

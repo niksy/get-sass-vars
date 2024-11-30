@@ -15,7 +15,18 @@ import function_ from '../index.js';
  */
 async function processStyle(file, options) {
 	const response = await fs.readFile(file, 'utf-8');
-	const actual = await function_(response, options);
+	const sassOptions = options ? options.sassOptions || {} : {};
+	const actual = await function_(response, {
+		...options,
+		sassOptions: {
+			...sassOptions,
+			silenceDeprecations: [
+				...(sassOptions.silenceDeprecations || []),
+				'color-functions',
+				'global-builtin'
+			]
+		}
+	});
 	return actual;
 }
 
@@ -25,7 +36,18 @@ async function processStyle(file, options) {
  */
 function processStyleSync(file, options) {
 	const response = _fs.readFileSync(file, 'utf-8');
-	const actual = function_.sync(response, options);
+	const sassOptions = options ? options.sassOptions || {} : {};
+	const actual = function_.sync(response, {
+		...options,
+		sassOptions: {
+			...sassOptions,
+			silenceDeprecations: [
+				...(sassOptions.silenceDeprecations || []),
+				'color-functions',
+				'global-builtin'
+			]
+		}
+	});
 	return actual;
 }
 
