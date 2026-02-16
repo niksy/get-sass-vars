@@ -2,11 +2,15 @@ import stripOuter from 'strip-outer';
 import camelcaseKeys from 'camelcase-keys';
 import postcss from 'postcss';
 import postcssScss from 'postcss-scss';
+// eslint-disable-next-line import/no-namespace
 import * as sass from 'sass';
 import jsonFns from 'node-sass-json-functions';
-import fromEntries from '@ungap/from-entries';
 // @ts-ignore
 import replaceAll from 'string-replace-all-ponyfill';
+
+/**
+ * @import {Options as SassOptions} from 'sass'
+ */
 
 /**
  * @typedef {JsonPrimitive | JsonObject | JsonArray} JsonValue
@@ -16,15 +20,10 @@ import replaceAll from 'string-replace-all-ponyfill';
  */
 
 /**
+ * @template {'sync'|'async'} T
  * @typedef {object} Options
- * @property {boolean=}                         camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
- * @property {import("sass").Options<"async">=} sassOptions Options for Sass renderer.
- */
-
-/**
- * @typedef {object} SyncOptions
- * @property {boolean=}                        camelize    Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
- * @property {import("sass").Options<"sync">=} sassOptions Options for Sass renderer.
+ * @property {boolean=}          camelize  Camelize first-level JSON object keys and strip inital `$` (e.g. `$foo-bar` will become `fooBar`).
+ * @property {SassOptions<T>=} sassOptions Options for Sass renderer.
  */
 
 const sassVariableSelector = '.__sassVars__';
@@ -66,14 +65,12 @@ function sanitizeValue(value) {
  *
  * Only top-level variables will be considered, anything inside selector or at-rule is ignored.
  *
- * @param {string}   input   Sass input string.
- * @param {Options=} options
+ * @param {string}            input
+ * @param {Options<'async'>=} options
  */
 async function main(input, options) {
-	const {
-		camelize = false,
-		sassOptions = /** @type {import("sass").Options<"async">} */ ({})
-	} = options || {};
+	const { camelize = false, sassOptions = /** @type {SassOptions<'async'>} */ ({}) } =
+		options || {};
 
 	const cssProcessor = postcss([noop()]);
 
@@ -101,13 +98,10 @@ async function main(input, options) {
 		functions: { ...jsonFns, ...functions },
 		...otherSassOptions,
 		// eslint-disable-next-line unicorn/prefer-spread
-		silenceDeprecations: Array.from(
-			new Set([...(silenceDeprecations || []), 'color-4-api'])
-		)
+		silenceDeprecations: Array.from(new Set([...(silenceDeprecations || []), 'color-4-api']))
 	});
 
-	let sassResponseString =
-		typeof sassResponse === 'undefined' ? '' : sassResponse.css.toString();
+	let sassResponseString = typeof sassResponse === 'undefined' ? '' : sassResponse.css.toString();
 
 	const finalResponse = await cssProcessor.process(sassResponseString, {
 		from: undefined
@@ -119,7 +113,7 @@ async function main(input, options) {
 
 	finalRoot.walkRules(sassVariableSelector, (rule) => {
 		rule.walkDecls('content', (decl) => {
-			let [property, value] = decl.value.split(' ":" ');
+			let [property, value] = /** @type [string, string] */ (decl.value.split(' ":" '));
 			property = stripOuter(property, '"');
 			value = sanitizeValue(value);
 			data[property] = JSON.parse(value);
@@ -129,11 +123,8 @@ async function main(input, options) {
 	if (camelize) {
 		return /** @type {JsonObject} */ (
 			camelcaseKeys(
-				fromEntries(
-					Object.entries(data).map(([key, value]) => [
-						stripOuter(key, '$'),
-						value
-					])
+				Object.fromEntries(
+					Object.entries(data).map(([key, value]) => [stripOuter(key, '$'), value])
 				)
 			)
 		);
@@ -142,18 +133,12 @@ async function main(input, options) {
 }
 
 /**
- * Gets Sass variables from Sass string. Sync version.
- *
- * Only top-level variables will be considered, anything inside selector or at-rule is ignored.
- *
- * @param {string}       input   Sass input string.
- * @param {SyncOptions=} options
+ * @param {string}           input
+ * @param {Options<'sync'>=} options
  */
 function mainSync(input, options) {
-	const {
-		camelize = false,
-		sassOptions = /** @type {import("sass").Options<"sync">} */ ({})
-	} = options || {};
+	const { camelize = false, sassOptions = /** @type {SassOptions<'sync'>} */ ({}) } =
+		options || {};
 
 	const cssProcessor = postcss([noop()]);
 
@@ -182,13 +167,10 @@ function mainSync(input, options) {
 		functions: { ...jsonFns, ...functions },
 		...otherSassOptions,
 		// eslint-disable-next-line unicorn/prefer-spread
-		silenceDeprecations: Array.from(
-			new Set([...(silenceDeprecations || []), 'color-4-api'])
-		)
+		silenceDeprecations: Array.from(new Set([...(silenceDeprecations || []), 'color-4-api']))
 	});
 
-	let sassResponseString =
-		typeof sassResponse === 'undefined' ? '' : sassResponse.css.toString();
+	let sassResponseString = typeof sassResponse === 'undefined' ? '' : sassResponse.css.toString();
 
 	const finalResponse = cssProcessor.process(sassResponseString, {
 		from: undefined
@@ -200,7 +182,7 @@ function mainSync(input, options) {
 
 	finalRoot.walkRules(sassVariableSelector, (rule) => {
 		rule.walkDecls('content', (decl) => {
-			let [property, value] = decl.value.split(' ":" ');
+			let [property, value] = /** @type [string, string] */ (decl.value.split(' ":" '));
 			property = stripOuter(property, '"');
 			value = sanitizeValue(value);
 			data[property] = JSON.parse(value);
@@ -210,11 +192,8 @@ function mainSync(input, options) {
 	if (camelize) {
 		return /** @type {JsonObject} */ (
 			camelcaseKeys(
-				fromEntries(
-					Object.entries(data).map(([key, value]) => [
-						stripOuter(key, '$'),
-						value
-					])
+				Object.fromEntries(
+					Object.entries(data).map(([key, value]) => [stripOuter(key, '$'), value])
 				)
 			)
 		);
@@ -222,6 +201,11 @@ function mainSync(input, options) {
 	return data;
 }
 
+/**
+ * Gets Sass variables from Sass string. Sync version.
+ *
+ * Only top-level variables will be considered, anything inside selector or at-rule is ignored.
+ */
 main.sync = mainSync;
 
 export default main;

@@ -1,20 +1,29 @@
 {
 	"compilerOptions": {
-		"target": "ESNext",
-		"module": "ESNext",
-		"lib": ["ESNext", "DOM"],
-		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true,
-		"resolveJsonModule": true,
-		"noEmit": true,
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"moduleDetection": "force",
+		"target": "es2022",
+		"lib": ["ES2023"],
+		"resolveJsonModule": false,
 		"newLine": "lf",
 		"strict": true,
+		"noImplicitReturns": true,
+		"noImplicitOverride": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
 		"noPropertyAccessFromIndexSignature": true,
+		"noEmit": true,
 		"noEmitOnError": true,
 		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
 		"allowJs": true,
-		"checkJs": true
+		"checkJs": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		"allowImportingTsExtensions": true,
+		"rewriteRelativeImportExtensions": true,
+		"erasableSyntaxOnly": true
 	},
-	"include": ["index.js", "lib/**/*.js", "test/**/*.js", "types/**/*.ts"]
+	"include": ["*.{js,cjs}", "lib", "test"]
 }
